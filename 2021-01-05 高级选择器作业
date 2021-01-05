@@ -1,1 +1,135 @@
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import javax.imageio.ImageIO;
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+
+public class background extends JFrame implements KeyListener {
+
+    //需要追加实现的功能（鼠标控制加按键控制）
+    
+    private static final long serialVersionUID = 1L;
+    int height = 800;
+    int width = 800;
+    JButton A=new JButton("开始游戏");
+	JButton B=new JButton("背景音乐");
+	JButton C=new JButton("退出游戏");
+    int fcousindex=0;
+    int p=0;
+    public background() {
+        setSize(800, 800);
+        setVisible(true);
+        setLocation(200, 200);
+        setResizable(true);// 可调节大小
+        setTitle("GodFs");// 设置标题
+        this.setFocusable(true);
+        this.addKeyListener(this);//增加按键监听
+        BufferedImage img=null;
+        try {
+        img=ImageIO.read(new File("./images/1.jfif"));
+        } catch (IOException e) {
+            System.out.println("图片加载失败");
+        }
+        getContentPane().setLayout(null);
+        //设置图片
+        JLabel label=new JLabel(new ImageIcon(img));
+        // JLabel M=new JLabel();
+        getContentPane().add(label);
+        //在窗口左上角放置一张图片
+        label.setBounds(0, 0, img.getWidth(),img.getHeight());
+        //设置背景图片背景
+
+
+
+        //-------------------------------------------------------------------------------------------------------
+
+        Container container=this.getContentPane();
+        container.add(A);
+        container.add(B);
+        container.add(C);
+
+        //设置焦点按键
+        // JButton FcousButton=new JButton("doing");
+        // container.add(FcousButton);
+        // FcousButton.setBounds(200,100,400,20);
+        // FcousButton.setForeground(Color.RED);
+        
+        ArrayList<JButton> arr=new ArrayList<JButton>();
+        arr.add(A);
+        arr.add(B);
+        arr.add(C);
+        for(JButton  i:arr){
+            if(p==fcousindex){
+                setColor(i);
+                i.setBounds(200,(p+4)*50,400,20);
+            }
+            else{
+                i.setBounds(200,(p+4)*50,400,20);
+                i.setBackground(Color.GRAY);               
+            }
+            i.repaint(200,(p+4)*50,400,20);
+            p++;
+            if(i==C){
+                p=0;
+                System.out.println(p);
+            }
+           
+        }
+
+    }
+    private void setColor(JButton a){
+        a.setBackground(Color.BLUE);
+        a.setForeground(Color.RED);
+    }
+
+    
+    
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+       
+        
+        
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if(e.getKeyCode()==KeyEvent.VK_UP){
+            fcousindex++;
+            
+            
+        }else
+        if(e.getKeyCode()==KeyEvent.VK_DOWN){
+            fcousindex--;
+        }else
+        if(e.getKeyCode()==KeyEvent.VK_RIGHT){
+            fcousindex++;
+        }else
+        if(e.getKeyCode()==KeyEvent.VK_LEFT){
+            fcousindex--;
+        }else
+        if(e.getKeyCode()==KeyEvent.VK_ENTER){
+            //隐藏当前窗口并创建游戏界面
+            this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            my I=new my();
+
+        }
+
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        
+
+    }
+}
 
